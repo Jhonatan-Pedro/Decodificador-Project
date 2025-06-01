@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decifrador Enigma</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <header>
+        <!-- Header original mantido vazio conforme fornecido -->
+        <nav>
+            <ul>
+                <li><a href="index.html">Apresentação</a></li>
+                <li><a href="decodificador.html">Decifrador Enigma</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="enigma">
+            <h1><span class="enigma-text">ENIGMA</span> Decoder</h1>
+            <p class="subtitle">Cifra de César - Inspirado no trabalho de Alan Turing</p>
+        </section>
+
+        <section class="main-content">
+            <div class="control-panel">
+                <form id="enigma-form">
+                    <div class="input-group">
+                        <label for="message">Mensagem:</label>
+                        <textarea id="message" rows="4" placeholder="Digite sua mensagem aqui"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="shift">Deslocamento (chave):</label>
+                        <input type="number" id="shift" min="1" max="25" value="1">
+                    </div>
+                    <div class="button-group">
+                        <button type="button" class="btn encode-btn">Codificar</button>
+                        <button type="button" class="btn decode-btn">Decodificar</button>
+                        <button type="button" class="btn clear-btn">Limpar</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="result-panel">
+                <h2>Resultado:</h2>
+                <div class="result-box" id="result"></div>
+                <h3>Histórico:</h3>
+                <div class="history-box" id="history"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Decifrador Enigma. Todos os direitos reservados.</p>
+        <p>Desenvolvido por Jhonatan Pedro, Guilherme Oliveira e Pedro Paulo.</p>
+    </footer>
+</body>
+
+</html>
