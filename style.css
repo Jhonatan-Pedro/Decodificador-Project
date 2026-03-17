@@ -1,172 +1,623 @@
-/* Variáveis de cores e transições */
+/* ============================================
+   ENIGMA DECODER - Design Elegante Romano
+   ============================================ */
+
 :root {
-    --primary-color: #1e2a44; /* Azul escuro mais moderno */
-    --secondary-color: #00ddeb; /* Ciano vibrante */
-    --accent-color: #ff4d4d; /* Vermelho neon */
-    --dark-color: #0d1321; /* Fundo escuro */
-    --light-color: #f0f4f8; /* Texto claro */
-    --retro-dark: #0a192f; /* Mantido do original */
-    --retro-light: #64ffda; /* Neon ciano do original */
-    --shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    --transition: all 0.3s ease;
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: rgba(17, 17, 17, 0.9);
+    
+    --gold: #c9a962;
+    --gold-light: #dcc180;
+    --gold-dark: #a08542;
+    
+    --text-white: #ffffff;
+    --text-light: #c0c0c0;
+    --text-muted: #808080;
+    
+    --border-gold: rgba(201, 169, 98, 0.3);
+    --border-light: rgba(255, 255, 255, 0.1);
+    
+    --transition-fast: 0.3s ease;
+    --transition-smooth: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Reset e configurações gerais */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  flex: 1;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(-45deg, var(--dark-color), var(--primary-color), var(--dark-color));
-    background-size: 400%;
-    color: var(--light-color);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-white);
     line-height: 1.6;
     min-height: 100vh;
-    animation: gradient 15s ease infinite;
+    overflow-x: hidden;
 }
 
-/* Animação de fundo */
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* ============================================
+   TIPOGRAFIA
+   ============================================ */
+
+h1, h2, h3 {
+    font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+    font-weight: 500;
+    letter-spacing: 0.02em;
 }
 
-/* Header original */
+/* ============================================
+   HEADER E NAVEGAÇÃO
+   ============================================ */
+
 header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
-    padding: 1rem;
-    border-bottom: 2px solid var(--retro-light);
-    box-shadow: var(--shadow);
+    padding: 1.5rem 3rem;
+    background: transparent;
+    transition: var(--transition-smooth);
 }
 
-/* Navegação (mantida para compatibilidade, mas não usada no header vazio) */
+header.scrolled {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 1rem 3rem;
+}
+
 nav ul {
     display: flex;
     justify-content: center;
     list-style: none;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 nav a {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--retro-light);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text-light);
     text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    transition: var(--transition);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: var(--transition-fast);
 }
 
-nav a:hover {
-    background-color: rgba(100, 255, 218, 0.2);
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: var(--transition-smooth);
 }
 
-/* Seção Enigma */
-.enigma {
-    text-align: center;
-    padding: 2rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+nav a:hover,
+nav a.active {
+    color: var(--gold);
 }
 
-.enigma h1 {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 3rem;
-    color: var(--retro-light);
-    text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+nav a:hover::after,
+nav a.active::after {
+    width: 100%;
 }
 
-.subtitle {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.3rem;
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Background com transição */
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    transition: opacity var(--transition-smooth);
+}
+
+.hero-bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.5) contrast(1.1);
+    transition: opacity var(--transition-smooth);
+}
+
+.hero-bg .bg-cesar {
+    opacity: 1;
+}
+
+.hero-bg .bg-turing {
+    opacity: 0;
+}
+
+.hero.turing-mode .hero-bg .bg-cesar {
+    opacity: 0;
+}
+
+.hero.turing-mode .hero-bg .bg-turing {
+    opacity: 1;
+}
+
+/* Overlay escuro */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(10, 10, 10, 0.85) 0%,
+        rgba(10, 10, 10, 0.6) 40%,
+        rgba(10, 10, 10, 0.3) 60%,
+        rgba(10, 10, 10, 0.5) 100%
+    );
+    z-index: -1;
+}
+
+/* Container principal */
+.hero-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+}
+
+/* Conteúdo de texto (esquerda) */
+.hero-content {
+    max-width: 500px;
+    animation: fadeInLeft 1s ease-out;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
     font-weight: 500;
-    color: var(--light-color);
+    transition: opacity var(--transition-fast);
+}
+
+.hero-content h1 span {
+    display: block;
+}
+
+.hero-content .subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 400px;
+    transition: opacity var(--transition-fast);
+}
+
+/* Botão CTA */
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.9rem 2rem;
+    background: transparent;
+    color: var(--text-white);
+    border: 1px solid var(--border-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transition: var(--transition-smooth);
+    z-index: -1;
+}
+
+.hero-btn:hover {
+    border-color: var(--gold);
+    color: var(--bg-primary);
+}
+
+.hero-btn:hover::before {
+    left: 0;
+}
+
+.hero-btn svg {
+    transition: var(--transition-fast);
+}
+
+.hero-btn:hover svg {
+    transform: translateX(4px);
+}
+
+/* Container das estátuas */
+.hero-figure {
+    position: absolute;
+    right: 8%;
+    bottom: 0;
+    height: 85vh;
+    display: flex;
+    align-items: flex-end;
+    z-index: 2;
+}
+
+.hero-figure img {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+.hero-figure .statue-cesar {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.hero-figure .statue-turing {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.hero.turing-mode .hero-figure .statue-cesar {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
+.hero.turing-mode .hero-figure .statue-turing {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Navegação lateral direita - MELHORADA */
+.hero-nav {
+    position: absolute;
+    right: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 10;
+}
+
+.hero-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-muted);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    text-decoration: none;
+    padding: 0.5rem 0;
+}
+
+.hero-nav-item .number {
+    font-size: 1rem;
+    font-weight: 500;
+    min-width: 24px;
+}
+
+.hero-nav-item .label {
+    position: relative;
+}
+
+/* Linha que aparece quando ativo - ESTILO REFERÊNCIA */
+.hero-nav-item .label::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width var(--transition-smooth);
+}
+
+.hero-nav-item.active,
+.hero-nav-item:hover {
+    color: var(--gold);
+}
+
+.hero-nav-item.active .label::before,
+.hero-nav-item:hover .label::before {
+    width: 0.6rem;
+}
+
+/* Linha maior quando ativo */
+.hero-nav-item.active {
+    color: var(--gold);
+}
+
+.hero-nav-item.active .label::after {
+    content: '';
+    position: absolute;
+    right: -3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+
+main {
+    padding-top: 0;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+}
+
+/* ============================================
+   SEÇÃO DE APRESENTAÇÃO
+   ============================================ */
+
+.apresentacao-section {
+    background: var(--bg-secondary);
+    padding: 4rem;
+    margin-bottom: 3rem;
+    border-left: 2px solid var(--gold);
+}
+
+.apresentacao-section h2 {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 2rem;
+}
+
+.apresentacao-section p {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.9;
+    margin-bottom: 1.2rem;
+}
+
+.apresentacao-section p:last-child {
+    margin-bottom: 0;
+}
+
+.apresentacao-section strong {
+    color: var(--gold-light);
+    font-weight: 500;
+}
+
+/* ============================================
+   CARDS INFORMATIVOS
+   ============================================ */
+
+.sections-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.info-card {
+    background: var(--bg-secondary);
+    padding: 3rem 2rem;
+    border: 1px solid var(--border-light);
+    transition: var(--transition-smooth);
+    position: relative;
+}
+
+.info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gold);
+    transition: var(--transition-smooth);
+}
+
+.info-card:hover {
+    border-color: var(--border-gold);
+    transform: translateY(-5px);
+}
+
+.info-card:hover::before {
+    width: 100%;
+}
+
+.card-icon {
+    font-size: 2rem;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
     opacity: 0.8;
 }
 
-/* Conteúdo principal */
-.main-content {
+.info-card h3 {
+    font-size: 1.5rem;
+    color: var(--text-white);
+    margin-bottom: 1rem;
+}
+
+.info-card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+/* ============================================
+   DECODER PAGE - COM VÍDEO DE FUNDO
+   ============================================ */
+
+.decoder-page {
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Vídeo de fundo */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3);
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.decoder-header {
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.decoder-header h1 {
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+}
+
+.decoder-header .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.decoder-content {
     display: grid;
-    grid-template-columns: 3fr 2fr; /* Layout assimétrico */
-    gap: 2rem;
-    max-width: 100%; /* Ocupa toda a largura */
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0 2rem 4rem;
+    position: relative;
+    z-index: 1;
 }
 
-/* Painéis com glassmorphism */
-.control-panel, .result-panel {
-    background: rgba(255, 255, 255, 0.1);
+.panel {
+    background: rgba(17, 17, 17, 0.85);
     backdrop-filter: blur(10px);
-    border-radius: 15px;
-    border: 1px solid rgba(100, 255, 218, 0.2);
-    padding: 1.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-light);
+    padding: 2.5rem;
 }
 
-.control-panel:hover, .result-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow);
+.panel-title {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-light);
 }
 
 /* Inputs */
 .input-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .input-group label {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--retro-light);
-    margin-bottom: 0.5rem;
     display: block;
+    color: var(--text-light);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
 }
 
 .input-group textarea,
 .input-group input {
     width: 100%;
-    padding: 0.8rem;
-    border: 1px solid rgba(100, 255, 218, 0.3);
-    border-radius: 10px;
-    background: rgba(10, 25, 47, 0.5);
-    color: var(--light-color);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1rem;
-    transition: var(--transition);
+    padding: 1rem 1.2rem;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-light);
+    color: var(--text-white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    transition: var(--transition-fast);
+    resize: vertical;
+}
+
+.input-group textarea {
+    min-height: 120px;
 }
 
 .input-group textarea:focus,
 .input-group input:focus {
     outline: none;
-    border-color: var(--retro-light);
-    box-shadow: 0 0 8px rgba(100, 255, 218, 0.3);
+    border-color: var(--gold);
+}
+
+.input-group textarea::placeholder,
+.input-group input::placeholder {
+    color: var(--text-muted);
 }
 
 /* Botões */
@@ -176,157 +627,770 @@ nav a:hover {
     flex-wrap: wrap;
 }
 
-.btn {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.9rem;
+.button-group .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.9rem 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
     font-weight: 500;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    border: none;
     cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.4s ease, height 0.4s ease;
-}
-
-.btn:hover::after {
-    width: 300px;
-    height: 300px;
+    transition: var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .encode-btn {
-    background-color: #28A745;
-    color: white;
-}
-
-.decode-btn {
-    background-color: #007BFF;
-    color: white;
-}
-
-.clear-btn {
-    background-color: var(--accent-color);
+    background: #2d5a3d;
     color: white;
 }
 
 .encode-btn:hover {
-    background-color: #34c759;
-    color: var(--dark-color);
+    background: #3d7a52;
+}
+
+.decode-btn {
+    background: #3d5a80;
+    color: white;
 }
 
 .decode-btn:hover {
-    background-color: #3399ff;
-    color: var(--dark-color);
+    background: #4d6a90;
+}
+
+.clear-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-light);
 }
 
 .clear-btn:hover {
-    background-color: #ff6666;
-    color: var(--dark-color);
+    border-color: #8b2635;
+    color: #a52a3a;
 }
 
-/* Resultado e Histórico */
-.result-panel h2, .result-panel h3 {
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--retro-light);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
-
-.result-box, .history-box {
-    background: rgba(10, 25, 47, 0.6);
-    border: 1px solid rgba(100, 255, 218, 0.2);
-    border-radius: 10px;
-    padding: 1rem;
+/* Resultado */
+.result-box {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-light);
+    padding: 1.5rem;
     min-height: 100px;
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--light-color);
-    overflow-wrap: break-word;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--gold);
+    word-break: break-word;
 }
 
+.result-box:empty::before {
+    content: 'O resultado aparecerá aqui...';
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Histórico */
 .history-box {
-    max-height: 200px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-light);
+    padding: 1rem;
+    max-height: 250px;
     overflow-y: auto;
-    background: linear-gradient(180deg, rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.6));
+}
+
+.history-box:empty::before {
+    content: 'Nenhum histórico ainda...';
+    color: var(--text-muted);
+    font-style: italic;
+    display: block;
+    padding: 1rem;
+    text-align: center;
 }
 
 .history-item {
-    padding: 0.5rem 0;
-    border-bottom: 1px dashed rgba(100, 255, 218, 0.2);
-    font-size: 0.9rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light);
+    animation: slideIn 0.4s ease-out;
 }
 
 .history-item:last-child {
     border-bottom: none;
 }
 
-/* Footer */
+.history-item strong {
+    color: var(--gold);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.history-item .original {
+    color: var(--text-muted);
+    text-decoration: line-through;
+    font-size: 0.85rem;
+}
+
+.history-item .result {
+    color: var(--text-light);
+}
+
+.history-item small {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+}
+
+/* Scrollbar */
+.history-box::-webkit-scrollbar {
+    width: 4px;
+}
+
+.history-box::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.history-box::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+}
+
+.history-box::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
 footer {
     text-align: center;
-    padding: 1.5rem;
-    background-color: #333;
-    font-size: 0.9rem;
-    margin-top: 3rem;
+    padding: 3rem 2rem;
+    background: rgba(17, 17, 17, 0.9);
+    border-top: 1px solid var(--border-light);
+    position: relative;
+    z-index: 1;
 }
 
-.enigma-text {
-    color: var(--accent-color);
-    text-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+.decoder-page footer {
+    background: rgba(17, 17, 17, 0.7);
+    backdrop-filter: blur(10px);
 }
 
-/* Ajuste de margens */
-main {
-    margin-top: 80px;
-    margin-bottom: 80px;
+footer p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
 }
 
-/* Responsividade */
-@media (max-width: 1024px) {
+footer p:last-child {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+}
+
+/* ============================================
+   ANIMAÇÕES
+   ============================================ */
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   Breakpoints:
+   — 1280px  : SyncMaster 932B Plus (1280×1024, 5:4) + widescreen compacto
+   — 1200px  : Laptops padrão
+   — 1024px  : Tablets landscape / notebooks pequenos
+   — 768px   : Tablets portrait
+   — 480px   : Smartphones grandes
+   — 375px   : Smartphones pequenos
+   ============================================ */
+
+/* ── 1280px — SyncMaster 932B Plus & similares ──────────────────────────── */
+/* Monitor 5:4: mais estreito que widescreen na mesma largura,
+   e proporcionalmente mais alto. Ajustes cirúrgicos para evitar
+   sobreposição da hero-figure com a hero-nav. */
+@media (max-width: 1280px) {
+    .hero-container {
+        padding: 0 3rem;
+    }
+
+    .hero-content {
+        max-width: 440px;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+
+    /* Figura recua para não colidir com a nav lateral */
+    .hero-figure {
+        right: 6%;
+        height: 78vh;
+    }
+
+    /* Nav lateral se aproxima da borda para dar espaço à figura */
+    .hero-nav {
+        right: 1.5rem;
+        gap: 1.6rem;
+    }
+
+    /* Remove a linha decorativa que pode sair da tela em 1280 */
+    .hero-nav-item.active .label::after {
+        width: 1.5rem;
+        right: -2rem;
+    }
+
+    .decoder-content {
+        gap: 2rem;
+        padding: 0 1.5rem 4rem;
+    }
+
+    .apresentacao-section {
+        padding: 3rem 2.5rem;
+    }
+
     .main-content {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-
-    .enigma h1 {
-        font-size: 2.5rem;
+        padding: 5rem 1.5rem;
     }
 }
 
-@media (max-width: 768px) {
-    .enigma h1 {
+/* ── 1200px — Laptops padrão ─────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+    .hero-figure {
+        right: 5%;
+        height: 72vh;
+    }
+
+    .hero-nav {
+        right: 2rem;
+    }
+
+    .sections-container {
+        gap: 1.5rem;
+    }
+
+    .decoder-content {
+        max-width: 960px;
+    }
+}
+
+/* ── 1024px — Tablets landscape / notebooks pequenos ────────────────────── */
+@media (max-width: 1024px) {
+    header {
+        padding: 1.2rem 2rem;
+    }
+
+    header.scrolled {
+        padding: 0.9rem 2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2.6rem;
+    }
+
+    .hero-content .subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* Figura fica semitransparente e menor, sem atrapalhar o texto */
+    .hero-figure {
+        opacity: 0.4;
+        height: 60vh;
+        right: 2%;
+    }
+
+    /* Nav lateral oculta: sem espaço horizontal suficiente */
+    .hero-nav {
+        display: none;
+    }
+
+    /* Decoder vira coluna única */
+    .decoder-content {
+        grid-template-columns: 1fr;
+        max-width: 720px;
+    }
+
+    /* Cards em 2 colunas */
+    .sections-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .apresentacao-section {
+        padding: 3rem 2rem;
+    }
+
+    .apresentacao-section h2 {
         font-size: 2rem;
     }
 
-    .control-panel, .result-panel {
+    .main-content {
+        padding: 4rem 1.5rem;
+    }
+
+    .decoder-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .panel {
+        padding: 2rem;
+    }
+}
+
+/* ── 768px — Tablets portrait ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+    /* Header */
+    header {
+        padding: 1rem 1.5rem;
+    }
+
+    header.scrolled {
+        padding: 0.8rem 1.5rem;
+    }
+
+    nav ul {
+        gap: 1.4rem;
+    }
+
+    nav a {
+        font-size: 0.75rem;
+        letter-spacing: 0.08em;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero-container {
+        padding: 0 1.5rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content .subtitle {
+        font-size: 0.88rem;
+        max-width: 100%;
+    }
+
+    /* Oculta a figura em tablets para dar foco total ao texto */
+    .hero-figure {
+        display: none;
+    }
+
+    /* Overlay mais escuro sem a figura */
+    .hero-overlay {
+        background: linear-gradient(
+            90deg,
+            rgba(10, 10, 10, 0.90) 0%,
+            rgba(10, 10, 10, 0.70) 60%,
+            rgba(10, 10, 10, 0.55) 100%
+        );
+    }
+
+    /* Main */
+    .main-content {
+        padding: 3rem 1.2rem;
+    }
+
+    .apresentacao-section {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .apresentacao-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .apresentacao-section p {
+        font-size: 0.95rem;
+    }
+
+    /* Cards em coluna única em tablets portrait */
+    .sections-container {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .info-card {
+        padding: 2rem 1.5rem;
+    }
+
+    /* Decoder */
+    .decoder-header {
+        padding: 7rem 1.5rem 3rem;
+    }
+
+    .decoder-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .decoder-content {
+        grid-template-columns: 1fr;
+        padding: 0 1.2rem 3rem;
+        gap: 1.5rem;
+    }
+
+    .panel {
+        padding: 1.8rem 1.5rem;
+    }
+
+    .panel-title {
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Botões em coluna */
+    .button-group {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .button-group .btn {
+        width: 100%;
+        min-width: unset;
         padding: 1rem;
     }
 
-    .btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.8rem;
+    /* Resultado */
+    .result-box {
+        font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+        padding: 2rem 1.5rem;
     }
 }
 
-/* Animações */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ── 480px — Smartphones grandes ────────────────────────────────────────── */
+@media (max-width: 480px) {
+    /* Header */
+    header {
+        padding: 0.9rem 1.2rem;
+    }
+
+    nav ul {
+        gap: 1rem;
+    }
+
+    nav a {
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 100svh; /* svh para mobile browsers com barra de endereço */
+    }
+
+    .hero-container {
+        padding: 0 1.2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.9rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .hero-content .subtitle {
+        font-size: 0.85rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+    }
+
+    .hero-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.72rem;
+    }
+
+    /* Main */
+    .main-content {
+        padding: 2.5rem 1rem;
+    }
+
+    .apresentacao-section {
+        padding: 2rem 1.2rem;
+        border-left-width: 2px;
+    }
+
+    .apresentacao-section h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .apresentacao-section p {
+        font-size: 0.9rem;
+        line-height: 1.8;
+    }
+
+    .sections-container {
+        gap: 1rem;
+    }
+
+    .info-card {
+        padding: 1.8rem 1.2rem;
+    }
+
+    .info-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .card-icon {
+        margin-bottom: 1.2rem;
+    }
+
+    .card-icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    /* Decoder */
+    .decoder-header {
+        padding: 6rem 1.2rem 2.5rem;
+    }
+
+    .decoder-header h1 {
+        font-size: 1.9rem;
+    }
+
+    .decoder-header .subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+    }
+
+    .decoder-content {
+        padding: 0 1rem 2.5rem;
+        gap: 1.2rem;
+    }
+
+    .panel {
+        padding: 1.5rem 1.2rem;
+    }
+
+    .panel-title {
+        font-size: 1.2rem;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.8rem;
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group label {
+        font-size: 0.7rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .input-group textarea,
+    .input-group input {
+        padding: 0.9rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .input-group textarea {
+        min-height: 100px;
+    }
+
+    .button-group {
+        gap: 0.7rem;
+    }
+
+    .button-group .btn {
+        padding: 0.9rem;
+        font-size: 0.7rem;
+    }
+
+    .result-box {
+        font-size: 0.85rem;
+        padding: 1.2rem;
+        min-height: 80px;
+    }
+
+    .history-box {
+        max-height: 200px;
+    }
+
+    .history-item {
+        padding: 0.8rem;
+    }
+
+    /* Footer */
+    footer {
+        padding: 1.8rem 1rem;
+    }
+
+    footer p {
+        font-size: 0.78rem;
+    }
 }
 
-.control-panel, .result-box, .history-box {
-    animation: fadeIn 0.5s ease-out;
+/* ── 375px — Smartphones pequenos ───────────────────────────────────────── */
+@media (max-width: 375px) {
+    nav a {
+        font-size: 0.65rem;
+        letter-spacing: 0.04em;
+    }
+
+    nav ul {
+        gap: 0.8rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.7rem;
+    }
+
+    .hero-content .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .hero-btn {
+        padding: 0.75rem 1.2rem;
+        font-size: 0.68rem;
+        gap: 0.6rem;
+    }
+
+    .apresentacao-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .apresentacao-section {
+        padding: 1.8rem 1rem;
+    }
+
+    .decoder-header h1 {
+        font-size: 1.7rem;
+    }
+
+    .decoder-header .subtitle {
+        font-size: 0.68rem;
+    }
+
+    .panel {
+        padding: 1.2rem 1rem;
+    }
+
+    .panel-title {
+        font-size: 1.1rem;
+    }
+
+    .input-group textarea,
+    .input-group input {
+        padding: 0.8rem 0.9rem;
+        font-size: 0.85rem;
+    }
+
+    .button-group .btn {
+        font-size: 0.65rem;
+        padding: 0.85rem;
+    }
+
+    .result-box {
+        font-size: 0.8rem;
+        padding: 1rem;
+    }
+}
+
+/* ── Altura reduzida (ex: landscape em smartphone) ──────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero {
+        min-height: 100svh;
+        height: auto;
+        padding: 5rem 0 2rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .hero-content .subtitle {
+        font-size: 0.8rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .decoder-header {
+        padding: 5rem 1.5rem 2rem;
+    }
+
+    .decoder-header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* ── SyncMaster 932B Plus — ajuste de altura 5:4 ────────────────────────── */
+/* 1280×1024: a tela é proporcionalmente mais alta que widescreen,
+   por isso o hero ocupa muito espaço vertical. Compensamos a densidade. */
+@media (min-width: 1024px) and (max-width: 1280px) and (min-height: 900px) {
+    .hero-content h1 {
+        font-size: 3.2rem;
+    }
+
+    .hero-figure {
+        height: 82vh;
+        right: 7%;
+    }
+
+    /* Mais espaço vertical no main para aproveitar a altura */
+    .main-content {
+        padding: 7rem 2rem;
+    }
+
+    .apresentacao-section {
+        padding: 3.5rem 3rem;
+    }
+
+    .sections-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .decoder-header {
+        padding: 9rem 2rem 4rem;
+    }
+
+    .decoder-content {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    /* Histórico um pouco mais alto para aproveitar o espaço */
+    .history-box {
+        max-height: 320px;
+    }
 }

@@ -1,64 +1,154 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decifrador Enigma</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Decifrador Enigma - Cifra de César</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lenis CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.14/dist/lenis.css">
+    
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 </head>
-
-<body>
+<body class="decoder-page">
+    <!-- Header -->
     <header>
-        <!-- Header original mantido vazio conforme fornecido -->
         <nav>
             <ul>
                 <li><a href="index.html">Apresentação</a></li>
-                <li><a href="decodificador.html">Decifrador Enigma</a></li>
+                <li><a href="decodificador.html" class="active">Decifrador</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section class="enigma">
-            <h1><span class="enigma-text">ENIGMA</span> Decoder</h1>
-            <p class="subtitle">Cifra de César - Inspirado no trabalho de Alan Turing</p>
-        </section>
+    <!-- Decoder Header -->
+    <section class="decoder-header">
+        <h1>Enigma Decoder</h1>
+        <p class="subtitle">Cifra de César — Inspirado no trabalho de Alan Turing</p>
+    </section>
 
-        <section class="main-content">
-            <div class="control-panel">
+    <!-- Main Content -->
+    <main>
+        <div class="decoder-content">
+            <!-- Painel de Controle -->
+            <section class="panel control-panel">
+                <h2 class="panel-title">Configuração da Cifra</h2>
+                
                 <form id="enigma-form">
+                    <!-- Campo de Mensagem -->
                     <div class="input-group">
-                        <label for="message">Mensagem:</label>
-                        <textarea id="message" rows="4" placeholder="Digite sua mensagem aqui"></textarea>
+                        <label for="message">Mensagem</label>
+                        <textarea 
+                            id="message" 
+                            rows="4" 
+                            placeholder="Digite sua mensagem aqui..."
+                            autocomplete="off"
+                        ></textarea>
                     </div>
+
+                    <!-- Campo de Deslocamento -->
                     <div class="input-group">
-                        <label for="shift">Deslocamento (chave):</label>
-                        <input type="number" id="shift" min="1" max="25" value="1">
+                        <label for="shift">Deslocamento (Chave)</label>
+                        <input 
+                            type="number" 
+                            id="shift" 
+                            min="1" 
+                            max="25" 
+                            value="3"
+                            placeholder="1-25"
+                        >
                     </div>
+
+                    <!-- Botões de Ação -->
                     <div class="button-group">
-                        <button type="button" class="btn encode-btn">Codificar</button>
-                        <button type="button" class="btn decode-btn">Decodificar</button>
-                        <button type="button" class="btn clear-btn">Limpar</button>
+                        <button type="button" class="btn encode-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                            </svg>
+                            Codificar
+                        </button>
+                        <button type="button" class="btn decode-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                            </svg>
+                            Decodificar
+                        </button>
+                        <button type="button" class="btn clear-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            Limpar
+                        </button>
                     </div>
                 </form>
-            </div>
+            </section>
 
-            <div class="result-panel">
-                <h2>Resultado:</h2>
+            <!-- Painel de Resultado -->
+            <section class="panel result-panel">
+                <h2 class="panel-title">Resultado</h2>
+                
                 <div class="result-box" id="result"></div>
-                <h3>Histórico:</h3>
+                
+                <h3 class="panel-title" style="margin-top: 2rem; font-size: 1.2rem;">Histórico</h3>
                 <div class="history-box" id="history"></div>
-            </div>
-        </section>
+            </section>
+        </div>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Decifrador Enigma. Todos os direitos reservados.</p>
+        <p>&copy; 2025 Enigma Decoder. Todos os direitos reservados.</p>
         <p>Desenvolvido por Jhonatan Pedro, Guilherme Oliveira e Pedro Paulo.</p>
     </footer>
-</body>
 
+    <!-- Vídeo de fundo -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="imagens/enigma_decoder.mp4" type="video/mp4">
+            <!-- Fallback caso o vídeo não carregue -->
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Lenis -->
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script>
+        // Inicializa Lenis
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            wheelMultiplier: 1,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    </script>
+
+    <!-- Script principal -->
+    <script src="script.js"></script>
+    
+    <!-- Script para efeito de scroll no header -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
 </html>

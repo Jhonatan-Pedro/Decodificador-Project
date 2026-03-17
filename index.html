@@ -3,66 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="apresentação.css">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <title>Apresentação - Decifrador Enigma</title>
+    <title>Enigma Decoder - Cifra de César</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lenis CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.1.14/dist/lenis.css">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Header -->
     <header>
         <nav>
             <ul>
-                <li><a href="index.html">Apresentação</a></li>
-                <li><a href="decodificador.html">Decifrador Enigma</a></li>
+                <li><a href="index.html" class="active">Apresentação</a></li>
+                <li><a href="decodificador.html">Decifrador</a></li>
             </ul>
         </nav>
     </header>
-    
-    <section class="hero">
-        <video class="hero-video" autoplay loop muted playsinline>
-            <source src="imagens/video-hero.mp4" type="video/mp4">
-            Seu navegador não suporta a reprodução de vídeos.
-        </video>
-        <div class="hero-content">
-        <h1><span class="enigma-text">ENIGMA</span> Decoder</h1>
-        <p>Decifre mensagens com a Cifra de César</p>
-        <a href="decodificador.html" class="btn">Começar</a>
-        </div> 
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <!-- Backgrounds com transição (sem parallax) -->
+        <div class="hero-bg">
+            <img src="imagens/palacio_romano.jpg" alt="Palácio Romano" class="bg-cesar">
+            <img src="imagens/biblioteca.jpg" alt="Biblioteca" class="bg-turing">
+        </div>
+        
+        <!-- Overlay escuro -->
+        <div class="hero-overlay"></div>
+        
+        <!-- Container principal -->
+        <div class="hero-container">
+            <!-- Conteúdo de texto (esquerda) -->
+            <div class="hero-content">
+                <h1 id="hero-title">
+                    <span>Descubra a</span>
+                    <span>História</span>
+                </h1>
+                <p class="subtitle" id="hero-subtitle">
+                    Explore os segredos da Cifra de César, a técnica de criptografia 
+                    mais antiga do mundo. Codifique e decodifique mensagens como os 
+                    antigos romanos.
+                </p>
+                <a href="decodificador.html" class="hero-btn">
+                    Começar
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Container das figuras (direita) (sem parallax) -->
+        <div class="hero-figure">
+            <img src="imagens/julio_cesar.png" alt="Júlio César" class="statue-cesar">
+            <img src="imagens/alan_turing.png" alt="Alan Turing" class="statue-turing">
+        </div>
+        
+        <!-- Navegação lateral - APENAS 2 LINKS -->
+        <div class="hero-nav">
+            <a href="#" class="hero-nav-item active" data-mode="cesar">
+                <span class="number">01</span>
+                <span class="label">Júlio César</span>
+            </a>
+            <a href="#" class="hero-nav-item" data-mode="turing">
+                <span class="number">02</span>
+                <span class="label">Alan Turing</span>
+            </a>
+        </div>
     </section>
 
+    <!-- Main Content -->
     <main>
         <div class="main-content">
-        <section class="apresentacaodoprojeto">
-            <h1>Apresentação do Projeto</h1>
-            <p>Este projeto é inspirado no filme "O Jogo da Imitação", que retrata a vida de Alan Turing e sua contribuição para a decodificação da máquina Enigma durante a Segunda Guerra Mundial.</p>
-            <p>O objetivo é criar um decifrador de mensagens utilizando a Cifra de César, uma técnica de criptografia simples, mas eficaz.</p>
-            <p>O decifrador permite codificar e decodificar mensagens com um deslocamento definido pelo usuário, proporcionando uma experiência interativa e educativa sobre criptografia.</p>
-        </section>
+            <!-- Apresentação do Projeto -->
+            <section class="apresentacao-section" id="sobre">
+                <h2>Apresentação do Projeto</h2>
+                <p>
+                    Este projeto é inspirado no filme <strong>"O Jogo da Imitação"</strong>, que retrata a vida de 
+                    <strong>Alan Turing</strong> e sua contribuição para a decodificação da máquina Enigma durante 
+                    a Segunda Guerra Mundial.
+                </p>
+                <p>
+                    O objetivo é criar um decifrador de mensagens utilizando a <strong>Cifra de César</strong>, 
+                    uma técnica de criptografia simples, mas eficaz, que remonta aos tempos do Império Romano.
+                </p>
+                <p>
+                    O decifrador permite codificar e decodificar mensagens com um deslocamento definido pelo usuário, 
+                    proporcionando uma experiência interativa e educativa sobre os princípios fundamentais da criptografia.
+                </p>
+            </section>
 
-        <div class="sections-container">
-        <section class="sobreacifra">
-            <h2>Sobre a Cifra de César</h2>
-            <p>A Cifra de César é uma das técnicas de criptografia mais antigas e conhecidas. Ela consiste em deslocar as letras do alfabeto por um número fixo de posições. Por exemplo, com um deslocamento de 3, a letra A se torna D, B se torna E, e assim por diante.</p>
-            <p>Essa técnica foi utilizada por Júlio César para enviar mensagens secretas a seus generais. Embora simples, a Cifra de César é um exemplo clássico de criptografia e serve como base para entender conceitos mais complexos.</p>
-        </section>
-    
-        <section class="comofunciona">
-            <h2>Como Funciona o Decifrador</h2>
-            <p>O decifrador de mensagens utiliza JavaScript para implementar a lógica da Cifra de César. O usuário pode inserir uma mensagem e um deslocamento, e o sistema irá codificar ou decodificar a mensagem conforme solicitado.</p>
-            <p>O projeto também inclui um histórico de mensagens, permitindo que o usuário visualize as mensagens codificadas e decodificadas anteriormente.</p>
-        </section>
+            <!-- Cards Informativos -->
+            <div class="sections-container" id="historia">
+                <!-- Sobre a Cifra de César -->
+                <section class="info-card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                    </div>
+                    <h3>A Cifra de César</h3>
+                    <p>
+                        Uma das técnicas de criptografia mais antigas da história. 
+                        Consiste em deslocar as letras do alfabeto por um número fixo de posições. 
+                        Utilizada por <strong>Júlio César</strong> para mensagens secretas.
+                    </p>
+                </section>
 
-        <section class="conclusao">
-            <h2>Conclusão</h2>
-            <p>Este projeto é uma homenagem a Alan Turing e sua contribuição para a criptografia. Através do decifrador Enigma, esperamos inspirar outros a explorar o fascinante mundo da criptografia e segurança da informação.</p>
-            <p>O decifrador é uma ferramenta educativa que demonstra os princípios básicos da criptografia, além de ser uma forma divertida de aprender sobre segurança digital.</p>
-        </section>
-        </div>
+                <!-- Como Funciona -->
+                <section class="info-card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
+                    <h3>Como Funciona</h3>
+                    <p>
+                        Utilizamos <strong>JavaScript</strong> para implementar a lógica da Cifra de César. 
+                        Insira uma mensagem, defina o deslocamento e codifique ou decodifique 
+                        instantaneamente.
+                    </p>
+                </section>
+
+                <!-- Conclusão -->
+                <section class="info-card">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Homenagem</h3>
+                    <p>
+                        Uma homenagem a <strong>Alan Turing</strong> e sua contribuição inestimável 
+                        para a criptografia e computação moderna. Explore o fascinante mundo da 
+                        criptografia.
+                    </p>
+                </section>
+            </div>
         </div>
     </main>
 
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Decifrador Enigma. Todos os direitos reservados.</p>
+        <p>&copy; 2025 Enigma Decoder. Todos os direitos reservados.</p>
         <p>Desenvolvido por Jhonatan Pedro, Guilherme Oliveira e Pedro Paulo.</p>
     </footer>
+
+    <!-- Scripts -->
+    <!-- Lenis -->
+    <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+    <script>
+        // Inicializa Lenis
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true,
+            wheelMultiplier: 1,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+    </script>
+
+    <script>
+        // Dados para cada modo
+        const heroData = {
+            cesar: {
+                title: ['Descubra a', 'História'],
+                subtitle: 'Explore os segredos da Cifra de César, a técnica de criptografia mais antiga do mundo. Codifique e decodifique mensagens como os antigos romanos.'
+            },
+            turing: {
+                title: ['Decifrando o', 'Impossível'],
+                subtitle: 'Inspirado no gênio que decodificou a máquina Enigma e mudou o curso da Segunda Guerra Mundial. A mente por trás da computação moderna.'
+            }
+        };
+
+        // Elementos
+        const hero = document.getElementById('hero');
+        const heroTitle = document.getElementById('hero-title');
+        const heroSubtitle = document.getElementById('hero-subtitle');
+        const navItems = document.querySelectorAll('.hero-nav-item');
+
+        // Função para trocar o modo
+        function switchMode(mode) {
+            const data = heroData[mode];
+            
+            // Atualizar classe do hero
+            if (mode === 'turing') {
+                hero.classList.add('turing-mode');
+            } else {
+                hero.classList.remove('turing-mode');
+            }
+            
+            // Atualizar texto com fade
+            heroTitle.style.opacity = '0';
+            heroSubtitle.style.opacity = '0';
+            
+            setTimeout(() => {
+                heroTitle.innerHTML = `<span>${data.title[0]}</span><span>${data.title[1]}</span>`;
+                heroSubtitle.textContent = data.subtitle;
+                heroTitle.style.opacity = '1';
+                heroSubtitle.style.opacity = '1';
+            }, 300);
+            
+            // Atualizar navegação ativa
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.mode === mode) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Event listeners para os links de navegação
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const mode = item.dataset.mode;
+                switchMode(mode);
+            });
+        });
+
+        // Efeito de scroll no header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
 </body>
 </html>

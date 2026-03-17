@@ -28,26 +28,66 @@ document.addEventListener('DOMContentLoaded', function() {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message';
         errorDiv.textContent = message;
-        document.body.appendChild(errorDiv);
         errorDiv.style.position = 'fixed';
-        errorDiv.style.top = '20px';
+        errorDiv.style.top = '100px';
         errorDiv.style.right = '20px';
-        errorDiv.style.background = 'rgba(255, 77, 77, 0.9)';
+        errorDiv.style.background = 'rgba(139, 38, 53, 0.95)';
         errorDiv.style.color = '#fff';
-        errorDiv.style.padding = '1rem';
-        errorDiv.style.borderRadius = '10px';
+        errorDiv.style.padding = '1rem 1.5rem';
+        errorDiv.style.borderRadius = '8px';
         errorDiv.style.zIndex = '2000';
         errorDiv.style.opacity = '0';
-        errorDiv.style.transition = 'opacity 0.3s ease';
+        errorDiv.style.transform = 'translateX(100px)';
+        errorDiv.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        errorDiv.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+        errorDiv.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+        errorDiv.style.maxWidth = '300px';
+        
+        document.body.appendChild(errorDiv);
         
         setTimeout(() => {
             errorDiv.style.opacity = '1';
+            errorDiv.style.transform = 'translateX(0)';
         }, 10);
         
         setTimeout(() => {
             errorDiv.style.opacity = '0';
-            setTimeout(() => errorDiv.remove(), 300);
-        }, 3000);
+            errorDiv.style.transform = 'translateX(100px)';
+            setTimeout(() => errorDiv.remove(), 400);
+        }, 3500);
+    }
+
+    // Função para exibir mensagem de sucesso
+    function showSuccess(message) {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'success-message';
+        successDiv.textContent = message;
+        successDiv.style.position = 'fixed';
+        successDiv.style.top = '100px';
+        successDiv.style.right = '20px';
+        successDiv.style.background = 'rgba(45, 90, 61, 0.95)';
+        successDiv.style.color = '#fff';
+        successDiv.style.padding = '1rem 1.5rem';
+        successDiv.style.borderRadius = '8px';
+        successDiv.style.zIndex = '2000';
+        successDiv.style.opacity = '0';
+        successDiv.style.transform = 'translateX(100px)';
+        successDiv.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+        successDiv.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+        successDiv.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+        
+        document.body.appendChild(successDiv);
+        
+        setTimeout(() => {
+            successDiv.style.opacity = '1';
+            successDiv.style.transform = 'translateX(0)';
+        }, 10);
+        
+        setTimeout(() => {
+            successDiv.style.opacity = '0';
+            successDiv.style.transform = 'translateX(100px)';
+            setTimeout(() => successDiv.remove(), 400);
+        }, 2500);
     }
 
     // Função para processar a mensagem (codificar/decodificar)
@@ -57,23 +97,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!message) {
             showError('Por favor, digite uma mensagem.');
+            messageInput.focus();
             return;
         }
 
         if (isNaN(shift) || shift < 1 || shift > 25) {
             showError('O deslocamento deve ser um número entre 1 e 25.');
+            shiftInput.focus();
             return;
         }
 
         let result;
         if (action === 'encode') {
             result = caesarCipher(message, shift);
+            showSuccess('Mensagem codificada com sucesso!');
         } else {
             result = caesarCipher(message, -shift);
+            showSuccess('Mensagem decodificada com sucesso!');
         }
 
-        resultDiv.textContent = result;
-        resultDiv.style.animation = 'fadeIn 0.5s ease-out';
+        // Animação do resultado
+        resultDiv.style.opacity = '0';
+        resultDiv.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+            resultDiv.textContent = result;
+            resultDiv.style.transition = 'all 0.4s ease-out';
+            resultDiv.style.opacity = '1';
+            resultDiv.style.transform = 'translateY(0)';
+            resultDiv.classList.add('result-highlight');
+            
+            setTimeout(() => {
+                resultDiv.classList.remove('result-highlight');
+            }, 2000);
+        }, 100);
+
         saveToHistory(message, result, action, shift);
     }
 
@@ -102,26 +160,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const historyItem = document.createElement('div');
         historyItem.className = 'history-item';
         historyItem.style.opacity = '0';
-        historyItem.style.transform = 'translateY(20px)';
-        historyItem.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        historyItem.style.transform = 'translateX(-20px)';
 
         const actionText = action === 'encode' ? 'Codificado' : 'Decodificado';
+        const actionColor = action === 'encode' ? '#2d5a3d' : '#3d5a80';
         const time = new Date().toLocaleTimeString('pt-BR', { hour12: false });
 
         historyItem.innerHTML = `
-            <strong>${actionText} (chave: ${shift})</strong><br>
-            <span class="original">${original}</span> → 
-            <span class="result">${result}</span><br>
+            <strong style="color: ${actionColor};">${actionText} (chave: ${shift})</strong><br>
+            <span class="original">${escapeHtml(original)}</span> → 
+            <span class="result">${escapeHtml(result)}</span><br>
             <small>${time}</small>
         `;
 
         historyDiv.prepend(historyItem);
 
         // Animação de entrada
-        setTimeout(() => {
+        requestAnimationFrame(() => {
+            historyItem.style.transition = 'all 0.4s ease-out';
             historyItem.style.opacity = '1';
-            historyItem.style.transform = 'translateY(0)';
-        }, 10);
+            historyItem.style.transform = 'translateX(0)';
+        });
 
         // Salvar no localStorage
         const history = JSON.parse(localStorage.getItem('enigmaHistory') || '[]');
@@ -148,12 +207,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const historyItem = document.createElement('div');
             historyItem.className = 'history-item';
             const actionText = item.action === 'encode' ? 'Codificado' : 'Decodificado';
+            const actionColor = item.action === 'encode' ? '#2d5a3d' : '#3d5a80';
             const time = new Date(item.time).toLocaleTimeString('pt-BR', { hour12: false });
 
             historyItem.innerHTML = `
-                <strong>${actionText} (chave: ${item.shift})</strong><br>
-                <span class="original">${item.original}</span> → 
-                <span class="result">${item.result}</span><br>
+                <strong style="color: ${actionColor};">${actionText} (chave: ${item.shift})</strong><br>
+                <span class="original">${escapeHtml(item.original)}</span> → 
+                <span class="result">${escapeHtml(item.result)}</span><br>
                 <small>${time}</small>
             `;
 
@@ -165,12 +225,30 @@ document.addEventListener('DOMContentLoaded', function() {
     function clearAll() {
         const confirmClear = confirm('Deseja limpar a mensagem, resultado e histórico?');
         if (confirmClear) {
-            messageInput.value = '';
-            shiftInput.value = '1';
-            resultDiv.textContent = '';
-            historyDiv.innerHTML = '';
-            localStorage.removeItem('enigmaHistory');
-            messageInput.focus();
+            // Animação de saída
+            resultDiv.style.transition = 'all 0.3s ease';
+            resultDiv.style.opacity = '0';
+            
+            setTimeout(() => {
+                messageInput.value = '';
+                shiftInput.value = '3';
+                resultDiv.textContent = '';
+                resultDiv.style.opacity = '1';
+                historyDiv.innerHTML = '';
+                localStorage.removeItem('enigmaHistory');
+                messageInput.focus();
+                showSuccess('Tudo foi limpo com sucesso!');
+            }, 300);
         }
     }
+
+    // Função para escapar HTML (segurança)
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Focar no campo de mensagem ao carregar
+    messageInput.focus();
 });
